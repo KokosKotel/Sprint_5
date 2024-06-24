@@ -1,6 +1,6 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EX
+from locators import Locators
 
 
 class TestNavigation:
@@ -8,10 +8,11 @@ class TestNavigation:
     def test_navigation_to_personal_account(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//p[contains(text(),'Личный Кабинет')]"
-        ))).click()
+            Locators.ACCOUNT_BUTTON
+        )))
+        driver.find_element(*Locators.ACCOUNT_BUTTON).click()
         history = WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//a[contains(text(),'История заказов')]"
+            Locators.HISTORY_LINK
         )))
         assert history.is_displayed()
 
@@ -19,13 +20,15 @@ class TestNavigation:
     def test_navigation_from_personal_account_to_constructor(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//p[contains(text(),'Личный Кабинет')]"
-        ))).click()
+            Locators.ACCOUNT_BUTTON
+        )))
+        driver.find_element(*Locators.ACCOUNT_BUTTON).click()
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//p[contains(text(),'Конструктор')]"
-        ))).click()
+            Locators.CONSTRUCTOR_BUTTON
+        )))
+        driver.find_element(*Locators.CONSTRUCTOR_BUTTON).click()
         message = WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//h1[contains(text(),'Соберите бургер')]"
+            Locators.MAIN_TEXT
         )))
         assert message.is_displayed()
 
@@ -33,12 +36,14 @@ class TestNavigation:
     def test_navigation_from_personal_account_by_click_logo(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//p[contains(text(),'Личный Кабинет')]"
-        ))).click()
+            Locators.ACCOUNT_BUTTON
+        )))
+        driver.find_element(*Locators.ACCOUNT_BUTTON).click()
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.CLASS_NAME, "AppHeader_header__logo__2D0X2"
-        ))).click()
+            Locators.LOGO_LINK
+        )))
+        driver.find_element(*Locators.LOGO_LINK).click()
         message = WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//h1[contains(text(),'Соберите бургер')]"
+            Locators.MAIN_TEXT
         )))
         assert message.is_displayed()

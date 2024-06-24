@@ -1,6 +1,6 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EX
+from locators import Locators
 
 
 class TestNavigationConstructs:
@@ -8,26 +8,29 @@ class TestNavigationConstructs:
     def test_navigation_to_buns_section(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//button[contains(text(),'Оформить заказ')]"
+            Locators.ORDER_BUTTON
         )))
-        name_buns = driver.find_element(By.XPATH, "//p[contains(text(),'Краторная булка N-200i')]")
-        assert name_buns.is_displayed()
+        driver.find_element(*Locators.SAUCES_TEXT).click()
+        driver.find_element(*Locators.BUNS_TEXT).click()
+        buns_tab = driver.find_element(*Locators.SELECTED_SECTION)
+        assert buns_tab.is_displayed()
 
     #Тест перехода в раздел "Соусы"
     def test_navigation_to_sauces_section(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//span[contains(text(),'Соусы')]"
-        ))).click()
-        name_sauces = driver.find_element(By.XPATH, "//p[contains(text(),'Соус с шипами Антарианского плоскоходца')]")
-        assert name_sauces.is_displayed()
+            Locators.ORDER_BUTTON
+        )))
+        driver.find_element(*Locators.SAUCES_TEXT).click()
+        sauces_tab = driver.find_element(*Locators.SELECTED_SECTION)
+        assert sauces_tab.is_displayed()
 
     #Тест перехода в раздел "Начинка"
     def test_navigation_to_fillings_section(self, login):
         driver = login
         WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-            By.XPATH, "//span[contains(text(),'Начинки')]"
-        ))).click()
-        name_fillings = driver.find_element(By.XPATH, "//p[contains(text(),'Сыр с астероидной плесенью')]")
-        driver.execute_script("arguments[0].scrollIntoView();", name_fillings)
-        assert name_fillings.is_displayed()
+            Locators.ORDER_BUTTON
+        )))
+        driver.find_element(*Locators.FILLING_TEXT).click()
+        fillings_tab = driver.find_element(*Locators.SELECTED_SECTION)
+        assert fillings_tab.is_displayed()

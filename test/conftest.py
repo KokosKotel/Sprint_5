@@ -2,10 +2,9 @@ import random
 import pytest
 from faker import Faker
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EX
-from constants import Constants
+from constants import Constants, ConstantsURL
 from locators import Locators
 
 
@@ -13,7 +12,7 @@ from locators import Locators
 @pytest.fixture
 def driver():
     browser = webdriver.Chrome()
-    browser.get(Constants.URL)
+    browser.get(ConstantsURL.URL)
     yield browser
 
     browser.quit()
@@ -24,7 +23,7 @@ def driver():
 def login(driver):
     driver.find_element(*Locators.LOGIN_BUTTON).click()
     WebDriverWait(driver, 3).until(EX.visibility_of_element_located((
-        By.CLASS_NAME, "Auth_login__3hAey"
+        Locators.EMAIL
     )))
     driver.find_element(*Locators.EMAIL).send_keys(Constants.EMAIL)
     driver.find_element(*Locators.PASSWORD).send_keys(Constants.PASSWORD)
